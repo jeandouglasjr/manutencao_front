@@ -147,7 +147,7 @@ const Animal = () => {
       <Container className="my-5 animate-fade-in">
         <Row className="mb-4 align-items-center">
           <Col md={8}>
-            <h1 className="fw-bold mb-0">🐶 Catálogo de Animais</h1>
+            <h1 className="fw-bold mb-0">Catálogo de Animais</h1>
             <p className="text-muted">Acompanhe e gerencie os pets disponíveis para adoção.</p>
           </Col>
           <Col md={4} className="text-md-end">

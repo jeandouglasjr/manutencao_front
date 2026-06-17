@@ -137,8 +137,8 @@ const EditarAnimal = () => {
       <Row className="justify-content-md-center">
         <Col md={10} lg={8}>
           <Card className="shadow-lg">
-            <Card.Header className="bg-warning text-dark">
-              <h2 className="mb-0">Editar Animal: **{animal.nome || "ID " + id}** 📝</h2>
+            <Card.Header className="bg-transparent border-0 pb-0">
+              <h2 className="fw-bold mb-0">Editar Animal: {animal.nome || "ID " + id}</h2>
             </Card.Header>
             <Card.Body>
               {status.error && <Alert variant="danger">{status.error}</Alert>}

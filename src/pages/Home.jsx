@@ -6,22 +6,17 @@ const Home = () => {
   return (
     <Container className="my-5 animate-fade-in">
       <div className="text-center mb-5">
-        <h1 className="display-3 fw-bold mb-3" style={{ 
-          background: "linear-gradient(135deg, #6366f1, #f43f5e)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent"
-        }}>
-          Pet Adoption System 🐾
+        <h1 className="display-4 fw-bold mb-3 text-primary">
+          Pet Adoption System
         </h1>
-        <p className="lead text-muted fs-4">
+        <p className="lead text-muted">
           Gerenciamento inteligente para o bem-estar animal.
         </p>
       </div>
 
       <Row className="g-4">
         <Col md={4}>
-          <Card className="h-100 p-4 text-center border-0 shadow-sm">
-            <div className="fs-1 mb-3">🐶</div>
+          <Card className="h-100 p-4 text-center">
             <Card.Title className="fs-3 mb-3">Animais</Card.Title>
             <Card.Text className="text-muted mb-4">
               Gerencie o catálogo de animais disponíveis para adoção.
@@ -33,8 +28,7 @@ const Home = () => {
         </Col>
 
         <Col md={4}>
-          <Card className="h-100 p-4 text-center border-0 shadow-sm">
-            <div className="fs-1 mb-3">📜</div>
+          <Card className="h-100 p-4 text-center">
             <Card.Title className="fs-3 mb-3">Histórico</Card.Title>
             <Card.Text className="text-muted mb-4">
               Acompanhe todas as adoções realizadas no sistema.
@@ -46,8 +40,7 @@ const Home = () => {
         </Col>
 
         <Col md={4}>
-          <Card className="h-100 p-4 text-center border-0 shadow-sm">
-            <div className="fs-1 mb-3">👥</div>
+          <Card className="h-100 p-4 text-center">
             <Card.Title className="fs-3 mb-3">Usuários</Card.Title>
             <Card.Text className="text-muted mb-4">
               Gerencie usuários, adotantes e administradores.
@@ -60,7 +53,7 @@ const Home = () => {
       </Row>
 
       <footer className="mt-5 text-center text-muted">
-        <p>© 2026 Pet Adoption System - Todos os direitos reservados.</p>
+        <p className="small">© 2026 Pet Adoption System - Todos os direitos reservados.</p>
       </footer>
     </Container>
   );

@@ -55,7 +55,6 @@ const Login = () => {
           <Col md={6} lg={4}>
             <Card className="border-0 shadow-lg p-3">
               <Card.Header className="bg-transparent border-0 text-center pb-0">
-                <div className="fs-1 mb-2">🐾</div>
                 <h2 className="fw-bold mb-0">Bem-vindo</h2>
                 <p className="text-muted small">Entre na sua conta para continuar</p>
               </Card.Header>

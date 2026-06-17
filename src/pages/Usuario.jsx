@@ -144,7 +144,7 @@ const Usuario = () => {
       <Container className="my-5 animate-fade-in">
         <Row className="mb-4 align-items-center">
           <Col md={8}>
-            <h1 className="fw-bold mb-0">🐾 Lista de Usuários</h1>
+            <h1 className="fw-bold mb-0">Lista de Usuários</h1>
             <p className="text-muted">Gerencie os acessos e permissões do sistema.</p>
           </Col>
           <Col md={4} className="text-md-end">

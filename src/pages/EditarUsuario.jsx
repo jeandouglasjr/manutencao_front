@@ -238,7 +238,7 @@ const EditarUsuario = () => {
           <Card className="shadow-lg p-3">
             <Card.Header className="bg-transparent border-0 pb-0">
               <h2 className="fw-bold mb-0">
-                Editar Usuário: <span className="text-primary">{usuario.nome || "ID " + id}</span> 📝
+                Editar Usuário: <span className="text-primary">{usuario.nome || "ID " + id}</span>
               </h2>
               <p className="text-muted small">Atualize as informações cadastrais e endereços do usuário.</p>
             </Card.Header>
@@ -392,9 +392,8 @@ const EditarUsuario = () => {
                             variant="outline-danger"
                             onClick={() => removeEndereco(index)}
                             size="sm"
-                            title="Remover endereço"
                           >
-                            🗑️
+                            Remover
                           </Button>
                         )}
                       </Col>

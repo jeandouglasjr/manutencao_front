@@ -134,7 +134,7 @@ const HistoricoAdocao = () => {
       <Container className="my-5 animate-fade-in">
         <Row className="mb-4 align-items-center">
           <Col md={8}>
-            <h1 className="fw-bold mb-0">📜 Histórico de Adoções</h1>
+            <h1 className="fw-bold mb-0">Histórico de Adoções</h1>
             <p className="text-muted">Registro detalhado de todos os processos de adoção concluídos.</p>
           </Col>
           <Col md={4} className="text-md-end">
