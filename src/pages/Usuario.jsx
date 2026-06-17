@@ -117,41 +117,22 @@ const Usuario = () => {
 
   return (
     <>
-      {/* 1. Componente de Navegação Superior (Navbar) */}
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Container fluid>
-          <Navbar.Brand as={Link} to="/usuario">
-            Meu App Pet (Admin)
+      <Navbar expand="lg" className="sticky-top">
+        <Container>
+          <Navbar.Brand as={Link} to="/">
+            Pet System
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {/* Links de navegação para outras páginas */}
-              <Nav.Link as={Link} to="/animal">
-                Lista de Animais
-              </Nav.Link>
-              <Nav.Link as={Link} to="/historico_adocao">
-                Histórico de Adoção
-              </Nav.Link>
-              {/* Link para cadastrar novo usuário (exemplo) */}
-              <Nav.Link as={Link} to="/usuario/novo">
-                Novo Usuário
-              </Nav.Link>
+              <Nav.Link as={Link} to="/animal" className="active">Animais</Nav.Link>
+              <Nav.Link as={Link} to="/historico_adocao">Histórico</Nav.Link>
+              <Nav.Link as={Link} to="/usuario/novo">Novo Usuário</Nav.Link>
             </Nav>
-
-            {/* Dropdown de Usuário Logado e Sair */}
             <Nav>
-              <NavDropdown
-                title={usuarioLogado}
-                id="user-nav-dropdown"
-                align="end"
-              >
-                <NavDropdown.Divider />
-                <NavDropdown.Item
-                  onClick={handleLogout}
-                  className="text-danger"
-                >
-                  <b>SAIR</b>
+              <NavDropdown title={usuarioLogado} id="user-nav-dropdown" align="end">
+                <NavDropdown.Item onClick={handleLogout} className="text-danger fw-bold">
+                  Sair
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -159,84 +140,88 @@ const Usuario = () => {
         </Container>
       </Navbar>
 
-      <Container className="my-5">
-        <Row>
-          <Col className="d-flex justify-content-between align-items-center">
-            <h1 className="mb-0">🐾 Lista de Usuários</h1>
+      <Container className="my-5 animate-fade-in">
+        <Row className="mb-4 align-items-center">
+          <Col md={8}>
+            <h1 className="fw-bold mb-0">🐾 Lista de Usuários</h1>
+            <p className="text-muted">Gerencie os acessos e permissões do sistema.</p>
+          </Col>
+          <Col md={4} className="text-md-end">
             <Button variant="success" as={Link} to="/usuario/novo">
               + Novo Usuário
             </Button>
           </Col>
         </Row>
-        <hr className="mt-2 mb-4" />
 
-        {/* 2. Tabela de Usuários Responsiva */}
-        <div className="table-responsive shadow-sm">
-          {usuarios.length > 0 ? (
-            <Table striped bordered hover responsive>
-              <thead className="table-dark">
-                <tr>
-                  {colunas.map((col) => (
-                    <th key={col.key}>{col.label}</th>
-                  ))}
-                  <th className="text-center">Ações</th> {/* Coluna de Ações */}
-                </tr>
-              </thead>
-              <tbody>
-                {usuarios.map((usuario, index) => (
-                  <tr key={usuario.id || index}>
-                    {colunas.map((col) => (
-                      <td key={col.key}>
-                        {col.isPassword ? (
-                          <div className="d-flex align-items-center">
-                            {senhaVisivelMap[usuario.id]
-                              ? usuario.senha
-                              : "********"}
-                            {/* 3. Controle de Senha (Visualizar/Esconder) */}
-                            <EyeIcon
-                              onClick={() => toggleSenhaVisivel(usuario.id)}
-                              isVisible={senhaVisivelMap[usuario.id]}
-                            />
-                          </div>
-                        ) : (
-                          // 4. Apresentação dos demais atributos
-                          usuario[col.key]
-                        )}
-                      </td>
+        <Card className="border-0 shadow-sm overflow-hidden">
+          <Card.Body className="p-0">
+            <div className="table-responsive">
+              {usuarios.length > 0 ? (
+                <Table hover responsive className="mb-0">
+                  <thead>
+                    <tr>
+                      {colunas.map((col) => (
+                        <th key={col.key}>{col.label}</th>
+                      ))}
+                      <th className="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {usuarios.map((usuario, index) => (
+                      <tr key={usuario.id || index}>
+                        {colunas.map((col) => (
+                          <td key={col.key}>
+                            {col.isPassword ? (
+                              <div className="d-flex align-items-center">
+                                <span className="me-2">
+                                  {senhaVisivelMap[usuario.id] ? usuario.senha : "••••••••"}
+                                </span>
+                                <EyeIcon
+                                  onClick={() => toggleSenhaVisivel(usuario.id)}
+                                  isVisible={senhaVisivelMap[usuario.id]}
+                                />
+                              </div>
+                            ) : (
+                              usuario[col.key]
+                            )}
+                          </td>
+                        ))}
+                        <td className="text-center">
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            as={Link}
+                            to={`/usuario/editar/${usuario.id}`}
+                            className="me-2"
+                          >
+                            Editar
+                          </Button>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => excluirUsuario(usuario.id)}
+                          >
+                            Excluir
+                          </Button>
+                        </td>
+                      </tr>
                     ))}
-                    <td className="text-center">
-                      <Button
-                        variant="warning"
-                        size="sm"
-                        as={Link}
-                        to={`/usuario/editar/${usuario.id}`}
-                        className="me-2"
-                      >
-                        Editar
-                      </Button>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        // Adicionar lógica de exclusão aqui
-                        onClick={() => excluirUsuario(usuario.id)}
-                      >
-                        Excluir
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <p className="alert alert-info">
-              Nenhum usuário encontrado ou erro ao conectar com a API.
-            </p>
-          )}
-        </div>
+                  </tbody>
+                </Table>
+              ) : (
+                <div className="p-5 text-center">
+                  <p className="alert alert-info border-0 mb-0">
+                    Nenhum usuário encontrado ou erro ao conectar com a API.
+                  </p>
+                </div>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
 
         <div className="mt-4">
-          <Button variant="primary" onClick={buscarUsuarios}>
-            Atualizar Lista
+          <Button variant="outline-primary" onClick={buscarUsuarios} size="sm">
+            🔄 Atualizar Lista
           </Button>
         </div>
       </Container>

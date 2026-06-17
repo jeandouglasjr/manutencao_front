@@ -10,6 +10,8 @@ import NovoAnimal from "./pages/NovoAnimal.jsx";
 import NovoHistoricoAdocao from "./pages/NovoHistorico_Adocao.jsx";
 import HistoricoAdocao from "./pages/Historico_Adocao.jsx";
 import EditarUsuario from "./pages/EditarUsuario.jsx";
+import EditarAnimal from "./pages/EditarAnimal.jsx";
+import EditarHistoricoAdocao from "./pages/EditarHistorico_Adocao.jsx";
 // 💡 Importe o novo componente de Login
 import Login from "./pages/Login.jsx";
 import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
@@ -55,6 +57,14 @@ const rotas = createBrowserRouter([
       {
         path: "/usuario/editar/:id",
         element: <EditarUsuario />,
+      },
+      {
+        path: "/animal/editar/:id",
+        element: <EditarAnimal />,
+      },
+      {
+        path: "/historico_adocao/editar/:id",
+        element: <EditarHistoricoAdocao />,
       },
     ],
   },

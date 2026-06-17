@@ -121,34 +121,20 @@ const Animal = () => {
 
   return (
     <>
-      {/* 1. Navbar Consistente */}
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Container fluid>
-          <Navbar.Brand as={Link} to="/usuario">
-            Meu App Pet
+      <Navbar expand="lg" className="sticky-top">
+        <Container>
+          <Navbar.Brand as={Link} to="/">
+            Pet System
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {/* Links de navegação */}
-              <Nav.Link as={Link} to="/usuario">
-                Lista de Usuários
-              </Nav.Link>
-              <Nav.Link as={Link} to="/historico_adocao">
-                Histórico de Adoção
-              </Nav.Link>
+              <Nav.Link as={Link} to="/usuario">Usuários</Nav.Link>
+              <Nav.Link as={Link} to="/historico_adocao">Histórico</Nav.Link>
             </Nav>
-
             <Nav>
-              <NavDropdown
-                title={usuarioLogado}
-                id="user-nav-dropdown"
-                align="end"
-              >
-                <NavDropdown.Item
-                  onClick={handleLogout}
-                  className="text-danger"
-                >
+              <NavDropdown title={usuarioLogado} id="user-nav-dropdown" align="end">
+                <NavDropdown.Item onClick={handleLogout} className="text-danger fw-bold">
                   Sair
                 </NavDropdown.Item>
               </NavDropdown>
@@ -157,81 +143,89 @@ const Animal = () => {
         </Container>
       </Navbar>
 
-      <Container className="my-5">
-        <h1 className="mb-4 text-center">🐶 Lista de Animais para Doação</h1>
-
-        {/* Barra de Ações (Busca e Botão Novo) */}
+      <Container className="my-5 animate-fade-in">
         <Row className="mb-4 align-items-center">
-          <Col md={6}>
-            <Form.Group controlId="formBusca">
-              <FormControl
-                type="text"
-                placeholder="Buscar por nome, raça ou espécie..."
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-              />
-            </Form.Group>
+          <Col md={8}>
+            <h1 className="fw-bold mb-0">🐶 Catálogo de Animais</h1>
+            <p className="text-muted">Acompanhe e gerencie os pets disponíveis para adoção.</p>
           </Col>
-          <Col md={6} className="text-end">
+          <Col md={4} className="text-md-end">
             <Button variant="success" onClick={handleNovoAnimal}>
-              + Adicionar Novo Animal
+              + Adicionar Animal
             </Button>
           </Col>
         </Row>
 
-        {/* 2. Tabela de Animais Responsiva */}
-        <div className="table-responsive">
-          {animaisFiltrados.length > 0 ? (
-            <Table striped bordered hover responsive>
-              <thead className="table-primary">
-                <tr>
-                  {colunas.map((col) => (
-                    <th key={col.key}>{col.label}</th>
-                  ))}
-                  <th>Ações</th>{" "}
-                  {/* Coluna para botões de ação (Editar/Deletar) */}
-                </tr>
-              </thead>
-              <tbody>
-                {animaisFiltrados.map((animal) => (
-                  <tr key={animal.id}>
-                    {colunas.map((col) => (
-                      <td key={col.key}>
-                        {/* Renderiza o valor do campo ou um badge para status */}
-                        {col.key === "disponivel" ? (
-                          <span
-                            className={`badge bg-${
-                              animal.disponivel ? "success" : "warning"
-                            }`}
+        <Row className="mb-4">
+          <Col md={12}>
+            <Form.Group controlId="formBusca">
+              <FormControl
+                type="text"
+                placeholder="Pesquisar por nome, raça ou espécie..."
+                value={busca}
+                className="py-2"
+                onChange={(e) => setBusca(e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Card className="border-0 shadow-sm overflow-hidden">
+          <Card.Body className="p-0">
+            <div className="table-responsive">
+              {animaisFiltrados.length > 0 ? (
+                <Table hover responsive className="mb-0">
+                  <thead>
+                    <tr>
+                      {colunas.map((col) => (
+                        <th key={col.key}>{col.label}</th>
+                      ))}
+                      <th className="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {animaisFiltrados.map((animal) => (
+                      <tr key={animal.id}>
+                        {colunas.map((col) => (
+                          <td key={col.key}>
+                            {col.key === "disponivel" ? (
+                              <span className={`badge bg-${animal.disponivel ? "success" : "warning"}`}>
+                                {animal.disponivel ? "Sim" : "Não"}
+                              </span>
+                            ) : (
+                              animal[col.key]
+                            )}
+                          </td>
+                        ))}
+                        <td className="text-center">
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            as={Link}
+                            to={`/animal/editar/${animal.id}`}
+                            className="me-2"
                           >
-                            {animal.disponivel ? "Sim" : "Não"}
-                          </span>
-                        ) : (
-                          animal[col.key]
-                        )}
-                      </td>
+                            Editar
+                          </Button>
+                          <Button variant="info" size="sm" className="me-2 text-white">
+                            Detalhes
+                          </Button>
+                          <Button variant="danger" size="sm">
+                            Adotado
+                          </Button>
+                        </td>
+                      </tr>
                     ))}
-                    <td>
-                      {/* Botões de Ação */}
-                      <Button variant="info" size="sm" className="me-2">
-                        Detalhes
-                      </Button>
-                      <Button variant="danger" size="sm">
-                        Adotado
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <p className="alert alert-info text-center">
-              {busca
-                ? "Nenhum animal encontrado com a busca."
-                : "Nenhum animal cadastrado."}
-            </p>
-          )}
-        </div>
+                  </tbody>
+                </Table>
+              ) : (
+                <div className="p-5 text-center text-muted">
+                  {busca ? "Nenhum resultado encontrado." : "Nenhum animal cadastrado."}
+                </div>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
       </Container>
     </>
   );

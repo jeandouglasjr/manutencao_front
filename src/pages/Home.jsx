@@ -1,28 +1,68 @@
-// src/pages/Home.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 const Home = () => {
   return (
-    <div>
-      <h1>Bem-vindo ao Sistema de Adoção! 🐾</h1>{" "}
-      <p>Encontre seu novo melhor amigo ou gerencie o sistema.</p>{" "}
-      <nav>
-        {" "}
-        <ul>
-          {/* 💡 Altera para a nova rota de Login */}{" "}
-          <li>
-            <Link to="/login">Login / Cadastro</Link>
-          </li>{" "}
-          <li>
-            <Link to="/animal">Ver Animais</Link>
-          </li>{" "}
-          <li>
-            <Link to="/historico_adocao">Histórico de Adoção</Link>
-          </li>{" "}
-        </ul>{" "}
-      </nav>{" "}
-    </div>
+    <Container className="my-5 animate-fade-in">
+      <div className="text-center mb-5">
+        <h1 className="display-3 fw-bold mb-3" style={{ 
+          background: "linear-gradient(135deg, #6366f1, #f43f5e)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent"
+        }}>
+          Pet Adoption System 🐾
+        </h1>
+        <p className="lead text-muted fs-4">
+          Gerenciamento inteligente para o bem-estar animal.
+        </p>
+      </div>
+
+      <Row className="g-4">
+        <Col md={4}>
+          <Card className="h-100 p-4 text-center border-0 shadow-sm">
+            <div className="fs-1 mb-3">🐶</div>
+            <Card.Title className="fs-3 mb-3">Animais</Card.Title>
+            <Card.Text className="text-muted mb-4">
+              Gerencie o catálogo de animais disponíveis para adoção.
+            </Card.Text>
+            <Button as={Link} to="/animal" variant="primary" className="mt-auto">
+              Ver Animais
+            </Button>
+          </Card>
+        </Col>
+
+        <Col md={4}>
+          <Card className="h-100 p-4 text-center border-0 shadow-sm">
+            <div className="fs-1 mb-3">📜</div>
+            <Card.Title className="fs-3 mb-3">Histórico</Card.Title>
+            <Card.Text className="text-muted mb-4">
+              Acompanhe todas as adoções realizadas no sistema.
+            </Card.Text>
+            <Button as={Link} to="/historico_adocao" variant="primary" className="mt-auto">
+              Ver Histórico
+            </Button>
+          </Card>
+        </Col>
+
+        <Col md={4}>
+          <Card className="h-100 p-4 text-center border-0 shadow-sm">
+            <div className="fs-1 mb-3">👥</div>
+            <Card.Title className="fs-3 mb-3">Usuários</Card.Title>
+            <Card.Text className="text-muted mb-4">
+              Gerencie usuários, adotantes e administradores.
+            </Card.Text>
+            <Button as={Link} to="/usuario" variant="primary" className="mt-auto">
+              Gerenciar Usuários
+            </Button>
+          </Card>
+        </Col>
+      </Row>
+
+      <footer className="mt-5 text-center text-muted">
+        <p>© 2026 Pet Adoption System - Todos os direitos reservados.</p>
+      </footer>
+    </Container>
   );
 };
 
