@@ -18,7 +18,7 @@ const EditarUsuario = () => {
   const navigate = useNavigate();
   const [loadingInitial, setLoadingInitial] = useState(true);
 
-  // 2. Estados Principais (Usuário, Endereços, Contatos)
+  // 2. Estados Principais (Usuário, Endereços)
   const [usuario, setUsuario] = useState({
     nome: "",
     email: "",
@@ -94,8 +94,7 @@ const EditarUsuario = () => {
             },
           ]);
         }
-        
-        }
+
       } catch (error) {
         console.error("Erro ao carregar dados do usuário", error.response || error);
         setStatus({
@@ -146,11 +145,6 @@ const EditarUsuario = () => {
   const removeEndereco = (index) => {
     const novosEnderecos = enderecos.filter((_, i) => i !== index);
     setEnderecos(novosEnderecos);
-  };
-  
-  // --- Handler de Submissão ---
-    const novosContatos = contatos.filter((_, i) => i !== index);
-    setContatos(novosContatos);
   };
 
   // --- Handler de Submissão ---
@@ -238,26 +232,28 @@ const EditarUsuario = () => {
 
   // Formulário Principal
   return (
-    <Container className="my-5">
+    <Container className="my-5 animate-fade-in">
       <Row className="justify-content-md-center">
         <Col md={10} lg={8}>
-          <Card className="shadow-lg">
-            <Card.Header className="bg-warning text-dark">
-              <h2 className="mb-0">
-                Editar Usuário: **{usuario.nome || "ID " + id}** 📝
+          <Card className="shadow-lg p-3">
+            <Card.Header className="bg-transparent border-0 pb-0">
+              <h2 className="fw-bold mb-0">
+                Editar Usuário: <span className="text-primary">{usuario.nome || "ID " + id}</span> 📝
               </h2>
+              <p className="text-muted small">Atualize as informações cadastrais e endereços do usuário.</p>
             </Card.Header>
             <Card.Body>
-              {status.error && <Alert variant="danger">{status.error}</Alert>}
+              {status.error && <Alert variant="danger" className="py-2 small">{status.error}</Alert>}
               {status.success && (
-                <Alert variant="success">{status.success}</Alert>
+                <Alert variant="success" className="py-2 small">{status.success}</Alert>
               )}
 
               <Form onSubmit={handleSubmit}>
                 {/* --- Seção 1: Dados Pessoais --- */}
-                <h3>Dados Pessoais</h3>
+                <h5 className="fw-bold mb-3 border-bottom pb-2">Dados Pessoais</h5>
                 <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formNome">
+                  <Form.Group as={Col} md={7} controlId="formNome">
+                    <Form.Label>Nome Completo</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Nome Completo"
@@ -267,163 +263,138 @@ const EditarUsuario = () => {
                       required
                     />
                   </Form.Group>
-                  <Form.Group as={Col} controlId="formCPF">
+                  <Form.Group as={Col} md={5} controlId="formCPF">
+                    <Form.Label>CPF</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="CPF 000.000.000-00"
+                      placeholder="CPF"
                       name="cpf"
                       value={usuario.cpf}
                       onChange={handleUsuarioChange}
                       required
-                      disabled // CPF desabilitado
+                      disabled
                     />
                   </Form.Group>
                 </Row>
                 <Row className="mb-4">
-                  <Form.Group as={Col} controlId="formFone">
+                  <Form.Group as={Col} md={6} controlId="formFone">
+                    <Form.Label>Telefone</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Fone (48) 90000-0000"
+                      placeholder="(48) 90000-0000"
                       name="fone"
                       value={usuario.fone}
                       onChange={handleUsuarioChange}
                       required
                     />
                   </Form.Group>
-                  <Form.Group as={Col} controlId="formEmail">
+                  <Form.Group as={Col} md={6} controlId="formEmail">
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
-                      placeholder="Email email@exemplo.com"
+                      placeholder="email@exemplo.com"
                       name="email"
                       value={usuario.email}
                       onChange={handleUsuarioChange}
                       required
                     />
                   </Form.Group>
-                  <Form.Group as={Col} controlId="formSenha">
-                    <Form.Label className="sr-only">Nova Senha (opcional)</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Nova senha ****** (Deixe vazio para manter a anterior)"
-                      name="senha"
-                      value={usuario.senha}
-                      onChange={handleUsuarioChange}
-                      required={false}
-                    />
-                  </Form.Group>
                 </Row>
-
-                <hr className="my-4" />
+                
+                <Form.Group className="mb-4" controlId="formSenha">
+                  <Form.Label>Nova Senha (deixe em branco para manter a atual)</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="••••••••"
+                    name="senha"
+                    value={usuario.senha}
+                    onChange={handleUsuarioChange}
+                  />
+                </Form.Group>
 
                 {/* --- Seção 2: Endereços --- */}
-                <h3>
-                  Endereços ({enderecos.length})
+                <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                  <h5 className="fw-bold mb-0">Endereços ({enderecos.length})</h5>
                   <Button
                     variant="outline-primary"
                     size="sm"
                     onClick={addEndereco}
-                    className="ms-3"
                   >
-                    + Adicionar Endereço
+                    + Adicionar
                   </Button>
-                </h3>
+                </div>
+
                 {enderecos.map((endereco, index) => (
-                  <Card key={index} className="mb-3 p-3 bg-light">
-                    <Row>
-                      <Col md={6} className="mb-2">
-                        <Form.Group controlId={`endLogradouro${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Rua, Avenida, etc."
-                            name="logradouro"
-                            value={endereco.logradouro}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                            required
-                          />
-                        </Form.Group>
+                  <Card key={index} className="mb-3 border-dashed bg-transparent p-3">
+                    <Row className="g-2">
+                      <Col md={8}>
+                        <Form.Label className="small mb-1">Rua / Logradouro</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="logradouro"
+                          value={endereco.logradouro}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                          required
+                        />
                       </Col>
-                      <Col md={2} className="mb-2">
-                        <Form.Group controlId={`endNumero${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Nº"
-                            name="numero"
-                            value={endereco.numero}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                          />
-                        </Form.Group>
+                      <Col md={4}>
+                        <Form.Label className="small mb-1">Número</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="numero"
+                          value={endereco.numero}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                        />
                       </Col>
-                      <Col md={4} className="mb-2">
-                        <Form.Group controlId={`endComplemento${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Complemento Casa, Ap, Bloco..."
-                            name="complemento"
-                            value={endereco.complemento}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                          />
-                        </Form.Group>
+                      <Col md={6}>
+                        <Form.Label className="small mb-1">Bairro</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="bairro"
+                          value={endereco.bairro}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                          required
+                        />
                       </Col>
-                    </Row>
-                    <Row className="mt-1">
-                      <Col md={4} className="mb-2">
-                        <Form.Group controlId={`endBairro${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Bairro"
-                            name="bairro"
-                            value={endereco.bairro}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                            required
-                          />
-                        </Form.Group>
+                      <Col md={6}>
+                        <Form.Label className="small mb-1">Município</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="municipio"
+                          value={endereco.municipio}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                          required
+                        />
                       </Col>
-                      <Col md={4} className="mb-2">
-                        <Form.Group controlId={`endMunicipio${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Município"
-                            name="municipio"
-                            value={endereco.municipio}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                            required
-                          />
-                        </Form.Group>
+                      <Col md={4}>
+                        <Form.Label className="small mb-1">UF</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uf"
+                          maxLength={2}
+                          value={endereco.uf}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                          required
+                        />
                       </Col>
-                      <Col md={2} className="mb-2">
-                        <Form.Group controlId={`endUF${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="UF"
-                            name="uf"
-                            maxLength={2}
-                            value={endereco.uf}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                            required
-                          />
-                        </Form.Group>
+                      <Col md={6}>
+                        <Form.Label className="small mb-1">CEP</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="cep"
+                          value={endereco.cep}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                        />
                       </Col>
-                      <Col md={2} className="mb-2">
-                        <Form.Group controlId={`endCEP${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="CEP 88130-300"
-                            name="cep"
-                            value={endereco.cep}
-                            onChange={(e) => handleEnderecoChange(index, e)}
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    <Row className="mt-2">
-                      <Col className="d-flex justify-content-end">
+                      <Col md={2} className="d-flex align-items-end justify-content-end">
                         {enderecos.length > 1 && (
                           <Button
                             variant="outline-danger"
                             onClick={() => removeEndereco(index)}
                             size="sm"
+                            title="Remover endereço"
                           >
-                            Remover Endereço
+                            🗑️
                           </Button>
                         )}
                       </Col>
@@ -431,16 +402,14 @@ const EditarUsuario = () => {
                   </Card>
                 ))}
 
-                <hr className="my-4" />
-                
-                {/* --- Botões de Ação --- */}
-                <div className="d-grid gap-2">
+                <div className="d-grid gap-2 mt-5">
                   <Button
-                    variant="warning"
+                    variant="primary"
                     type="submit"
                     disabled={status.loading}
+                    className="py-2"
                   >
-                    {status.loading ? "Atualizando..." : "Atualizar Usuário"}
+                    {status.loading ? "Atualizando..." : "Salvar Alterações"}
                   </Button>
                   <Button
                     variant="outline-secondary"
@@ -448,7 +417,7 @@ const EditarUsuario = () => {
                     to="/usuario"
                     disabled={status.loading}
                   >
-                    Voltar para a Lista
+                    Cancelar
                   </Button>
                 </div>
               </Form>
