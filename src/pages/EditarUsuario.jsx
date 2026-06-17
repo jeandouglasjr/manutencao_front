@@ -39,9 +39,6 @@ const EditarUsuario = () => {
     },
   ]);
 
-  // 💡 ESTADO DE CONTATOS RE-ADICIONADO
-  const [contatos, setContatos] = useState([{ tipo: "Telefone", valor: "" }]);
-
   const [status, setStatus] = useState({
     loading: false,
     error: null,
@@ -98,18 +95,7 @@ const EditarUsuario = () => {
           ]);
         }
         
-        // 💡 LÓGICA DE CARREGAMENTO DE CONTATOS ADICIONADA
-        if (data.contatos && data.contatos.length > 0) {
-            setContatos(
-                data.contatos.map((cont) => ({
-                    tipo: cont.tipo || "Telefone",
-                    valor: cont.valor || "",
-                }))
-            );
-        } else {
-            setContatos([{ tipo: "Telefone", valor: "" }]);
         }
-
       } catch (error) {
         console.error("Erro ao carregar dados do usuário", error.response || error);
         setStatus({
@@ -162,22 +148,7 @@ const EditarUsuario = () => {
     setEnderecos(novosEnderecos);
   };
   
-  // 💡 HANDLERS PARA CONTATOS RE-ADICIONADOS
-  const handleContatoChange = (index, e) => {
-    const novosContatos = contatos.map((contato, i) => {
-      if (i === index) {
-        return { ...contato, [e.target.name]: e.target.value };
-      }
-      return contato;
-    });
-    setContatos(novosContatos);
-  };
-
-  const addContato = () => {
-    setContatos([...contatos, { tipo: "Telefone", valor: "" }]);
-  };
-
-  const removeContato = (index) => {
+  // --- Handler de Submissão ---
     const novosContatos = contatos.filter((_, i) => i !== index);
     setContatos(novosContatos);
   };
@@ -193,8 +164,6 @@ const EditarUsuario = () => {
       enderecos: enderecos.filter(
         (addr) => addr.logradouro && addr.municipio && addr.uf && addr.bairro
       ),
-      // 💡 FILTRO DE CONTATOS RE-ADICIONADO
-      contatos: contatos.filter((cont) => cont.valor), 
     };
 
     // Nova Validação Front-end: Garante que haja pelo menos 1 endereço completo
@@ -455,63 +424,6 @@ const EditarUsuario = () => {
                             size="sm"
                           >
                             Remover Endereço
-                          </Button>
-                        )}
-                      </Col>
-                    </Row>
-                  </Card>
-                ))}
-
-                <hr className="my-4" />
-
-                {/* --- Seção 3: Contatos --- */}
-                <h3>
-                  Contatos ({contatos.length})
-                  <Button
-                    variant="outline-primary"
-                    size="sm"
-                    onClick={addContato}
-                    className="ms-3"
-                  >
-                    + Adicionar Contato
-                  </Button>
-                </h3>
-                {contatos.map((contato, index) => (
-                  <Card key={index} className="mb-3 p-3 bg-light">
-                    <Row>
-                      <Col md={4}>
-                        <Form.Group controlId={`contatoTipo${index}`}>
-                          <Form.Select
-                            name="tipo"
-                            value={contato.tipo}
-                            onChange={(e) => handleContatoChange(index, e)}
-                          >
-                            <option>Telefone</option>
-                            <option>Celular</option>
-                            <option>Email</option>
-                          </Form.Select>
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
-                        <Form.Group controlId={`contatoValor${index}`}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Valor do Contato"
-                            name="valor"
-                            value={contato.valor}
-                            onChange={(e) => handleContatoChange(index, e)}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={2} className="d-flex align-items-center">
-                        {contatos.length > 1 && (
-                          <Button
-                            variant="outline-danger"
-                            onClick={() => removeContato(index)}
-                            size="sm"
-                            className="w-100"
-                          >
-                            Remover
                           </Button>
                         )}
                       </Col>
