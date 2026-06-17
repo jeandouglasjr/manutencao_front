@@ -10,6 +10,7 @@ import {
   NavDropdown,
   Row,
   Col,
+  Card,
 } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css"; // Importe o CSS do Bootstrap

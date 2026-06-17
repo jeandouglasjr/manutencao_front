@@ -12,6 +12,7 @@ import {
   FormControl,
   Row,
   Col,
+  Card,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
