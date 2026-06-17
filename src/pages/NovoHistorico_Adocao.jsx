@@ -121,8 +121,8 @@ const NovoHistoricoAdocao = () => {
       <Row className="justify-content-md-center">
         <Col md={10} lg={8}>
           <Card className="shadow-lg">
-            <Card.Header className="bg-info text-white">
-              <h2 className="mb-0">Registrar Nova Adoção 📝</h2>
+            <Card.Header className="bg-transparent border-0 pb-0">
+              <h2 className="fw-bold mb-0">Registrar Nova Adoção</h2>
             </Card.Header>
             <Card.Body>
               {status.error && <Alert variant="danger">{status.error}</Alert>}

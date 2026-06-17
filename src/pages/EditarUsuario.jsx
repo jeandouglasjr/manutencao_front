@@ -237,9 +237,9 @@ const EditarUsuario = () => {
         <Col md={10} lg={8}>
           <Card className="shadow-lg p-3">
             <Card.Header className="bg-transparent border-0 pb-0">
-              <h2 className="fw-bold mb-0">
+              <h4 className="fw-bold mb-0">
                 Editar Usuário: <span className="text-primary">{usuario.nome || "ID " + id}</span>
-              </h2>
+              </h4>
               <p className="text-muted small">Atualize as informações cadastrais e endereços do usuário.</p>
             </Card.Header>
             <Card.Body>
@@ -344,6 +344,16 @@ const EditarUsuario = () => {
                           name="numero"
                           value={endereco.numero}
                           onChange={(e) => handleEnderecoChange(index, e)}
+                        />
+                      </Col>
+                      <Col md={12}>
+                        <Form.Label className="small mb-1">Complemento</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="complemento"
+                          value={endereco.complemento}
+                          onChange={(e) => handleEnderecoChange(index, e)}
+                          placeholder="Apto, Bloco, etc."
                         />
                       </Col>
                       <Col md={6}>
