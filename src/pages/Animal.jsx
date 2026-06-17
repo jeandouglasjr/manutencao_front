@@ -84,7 +84,7 @@ const Animal = () => {
       { key: "especie", label: "Espécie" },
       { key: "raca", label: "Raça" },
       { key: "idade", label: "Idade" }, // <-- MUDANÇA AQUI: Usa 'idade' (o resultado do cálculo)
-      { key: "disponivel", label: "Disponível" },
+      { key: "status", label: "Status" },
       { key: "data_cadastro", label: "Criado Em" },
     ],
     []
@@ -204,9 +204,12 @@ const Animal = () => {
                       <tr key={animal.id}>
                         {colunas.map((col) => (
                           <td key={col.key}>
-                            {col.key === "disponivel" ? (
-                              <span className={`badge bg-${animal.disponivel ? "success" : "warning"}`}>
-                                {animal.disponivel ? "Sim" : "Não"}
+                            {col.key === "status" ? (
+                              <span className={`badge bg-${
+                                animal.status === "Disponível" ? "success" : 
+                                animal.status === "Adotado" ? "secondary" : "warning"
+                              }`}>
+                                {animal.status}
                               </span>
                             ) : (
                               animal[col.key]

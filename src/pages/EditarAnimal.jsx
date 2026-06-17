@@ -133,12 +133,12 @@ const EditarAnimal = () => {
   }
 
   return (
-    <Container className="my-5">
+    <Container className="my-5 animate-fade-in">
       <Row className="justify-content-md-center">
         <Col md={10} lg={8}>
-          <Card className="shadow-lg">
+          <Card className="shadow-lg p-3">
             <Card.Header className="bg-transparent border-0 pb-0">
-              <h2 className="fw-bold mb-0">Editar Animal: {animal.nome || "ID " + id}</h2>
+              <h4 className="fw-bold mb-0">Editar Animal: {animal.nome || "ID " + id}</h4>
             </Card.Header>
             <Card.Body>
               {status.error && <Alert variant="danger">{status.error}</Alert>}
@@ -246,15 +246,17 @@ const EditarAnimal = () => {
                 </Row>
                 <Row className="mb-4">
                   <Form.Group as={Col} controlId="formStatus">
-                    <Form.Label>Status</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ex: Disponível, Adotado"
+                    <Form.Label>Status de Disponibilidade</Form.Label>
+                    <Form.Select
                       name="status"
                       value={animal.status}
                       onChange={handleAnimalChange}
                       required
-                    />
+                    >
+                      <option value="Disponível">Disponível</option>
+                      <option value="Adotado">Adotado</option>
+                      <option value="Pendente">Pendente</option>
+                    </Form.Select>
                   </Form.Group>
                 </Row>
 
