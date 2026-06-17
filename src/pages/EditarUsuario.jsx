@@ -54,7 +54,9 @@ const EditarUsuario = () => {
       try {
         setLoadingInitial(true);
         const response = await api.get(`/usuario/${id}`);
-        const data = response.data;
+        console.log("Resposta da API (Usuário):", response.data);
+        const data = response.data?.mensagem || response.data;
+        console.log("Dados processados do usuário:", data);
 
         // Atualiza o estado principal do usuário
         setUsuario({
