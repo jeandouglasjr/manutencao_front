@@ -118,6 +118,21 @@ const Animal = () => {
     navigate("/animal/novo");
   };
 
+  const handleExcluir = async (id) => {
+    if (window.confirm("Deseja realmente excluir este animal?")) {
+      try {
+        await api.delete(`/animal/${id}`);
+        alert("Animal excluído com sucesso!");
+        // Recarregar a lista
+        const response = await api.get("/animal");
+        setAnimais(response.data?.mensagem || response.data?.animais || response.data || []);
+      } catch (error) {
+        console.error("Erro ao excluir animal", error);
+        alert(error.response?.data?.mensagem || "Erro ao excluir animal (ele pode estar vinculado a um histórico).");
+      }
+    }
+  };
+
   // --- Renderização ---
 
   return (
@@ -211,8 +226,12 @@ const Animal = () => {
                           <Button variant="info" size="sm" className="me-2 text-white">
                             Detalhes
                           </Button>
-                          <Button variant="danger" size="sm">
-                            Adotado
+                          <Button 
+                            variant="danger" 
+                            size="sm"
+                            onClick={() => handleExcluir(animal.id)}
+                          >
+                            Excluir
                           </Button>
                         </td>
                       </tr>

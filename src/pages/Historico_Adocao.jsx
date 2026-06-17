@@ -105,6 +105,21 @@ const HistoricoAdocao = () => {
     navigate("/historico_adocao/novo");
   };
 
+  const handleExcluir = async (id) => {
+    if (window.confirm("Deseja realmente excluir este histórico de adoção?")) {
+      try {
+        await api.delete(`/historico_adocao/${id}`);
+        alert("Histórico excluído com sucesso!");
+        // Recarregar a lista
+        const response = await api.get("/historico_adocao");
+        setHistoricos(response.data?.mensagem || response.data?.historicos || response.data || []);
+      } catch (error) {
+        console.error("Erro ao excluir histórico", error);
+        alert(error.response?.data?.mensagem || "Erro ao excluir histórico.");
+      }
+    }
+  };
+
   // --- Renderização ---
 
   return (
@@ -207,7 +222,11 @@ const HistoricoAdocao = () => {
                             >
                               Editar
                             </Button>
-                            <Button variant="danger" size="sm">
+                            <Button 
+                              variant="danger" 
+                              size="sm"
+                              onClick={() => handleExcluir(hist.id)}
+                            >
                               Excluir
                             </Button>
                           </td>
