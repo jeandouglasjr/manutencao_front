@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import api from "../services/api";
+import bcrypt from "bcryptjs"; // Importando para garantir a criptografia no front
 
 const EditarUsuario = () => {
   const { id } = useParams();
@@ -171,8 +172,22 @@ const EditarUsuario = () => {
       return;
     }
 
-    // Validação da Senha
-    if (usuario.senha === "") {
+    // Validação e Criptografia da Senha
+    if (usuario.senha && usuario.senha.trim() !== "") {
+      try {
+        const salt = await bcrypt.genSalt(10);
+        payload.senha = await bcrypt.hash(usuario.senha, salt);
+        console.log("Senha criptografada com sucesso no front.");
+      } catch (bcryptError) {
+        console.error("Erro ao criptografar senha:", bcryptError);
+        setStatus({
+          loading: false,
+          error: "Erro interno ao processar segurança da senha.",
+          success: null
+        });
+        return;
+      }
+    } else {
         // Remove a propriedade senha do payload se estiver vazia (para não sobrescrever no backend)
         delete payload.senha; 
     }

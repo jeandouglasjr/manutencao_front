@@ -11,6 +11,7 @@ import {
   Card,
 } from "react-bootstrap";
 import api from "../services/api";
+import bcrypt from "bcryptjs";
 
 const NovoUsuario = () => {
   const navigate = useNavigate();
@@ -80,6 +81,12 @@ const NovoUsuario = () => {
         success: null,
       });
       return;
+    }
+
+    // 💡 Criptografia da Senha no Front-end
+    if (payload.senha) {
+      const salt = await bcrypt.genSalt(10);
+      payload.senha = await bcrypt.hash(payload.senha, salt);
     }
 
     try {
