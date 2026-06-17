@@ -1,7 +1,7 @@
 import axios from "axios";
 // import { useNavigate } from "react-router-dom"; // REMOVIDO: Hooks não podem ser usados aqui
 
-const API_URL = "manutencao-back.vercel.app";
+const API_URL = "https://manutencao-back.vercel.app";
 
 const api = axios.create({
   baseURL: API_URL,
