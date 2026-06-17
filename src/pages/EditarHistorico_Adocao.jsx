@@ -43,11 +43,16 @@ const EditarHistoricoAdocao = () => {
           api.get(`/historico_adocao/${id}`),
         ]);
 
-        setAnimais(resAnimais.data?.mensagem || []);
-        setUsuarios(resUsuarios.data?.mensagem || []);
+        setAnimais(resAnimais.data?.mensagem || resAnimais.data?.animais || []);
+        setUsuarios(resUsuarios.data?.mensagem || resUsuarios.data?.usuarios || []);
 
-        const data = resHistorico.data?.mensagem || resHistorico.data;
-        console.log("Resposta da API (Histórico):", resHistorico.data);
+        console.log("Resposta da API (Histórico Raw):", resHistorico.data);
+        
+        // Carregamento Inteligente
+        const receivedData = resHistorico.data?.mensagem || resHistorico.data?.historico || resHistorico.data;
+        const data = Array.isArray(receivedData) ? receivedData[0] : receivedData;
+        
+        console.log("Dados processados do histórico:", data);
 
         setHistorico({
           id_animal: data.id_animal || "",

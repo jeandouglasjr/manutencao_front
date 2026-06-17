@@ -41,7 +41,11 @@ const EditarAnimal = () => {
         setLoadingInitial(true);
         const response = await api.get(`/animal/${id}`);
         console.log("Resposta da API (Animal):", response.data);
-        const data = response.data?.mensagem || response.data;
+        
+        // Carregamento Inteligente: Tenta várias chaves possíveis do backend
+        const receivedData = response.data?.mensagem || response.data?.animal || response.data;
+        const data = Array.isArray(receivedData) ? receivedData[0] : receivedData;
+        
         console.log("Dados processados do animal:", data);
 
         setAnimal({

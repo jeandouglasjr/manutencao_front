@@ -55,7 +55,11 @@ const EditarUsuario = () => {
         setLoadingInitial(true);
         const response = await api.get(`/usuario/${id}`);
         console.log("Resposta da API (Usuário):", response.data);
-        const data = response.data?.mensagem || response.data;
+        
+        // Carregamento Inteligente: Tenta várias chaves possíveis do backend
+        const receivedData = response.data?.mensagem || response.data?.usuario || response.data;
+        const data = Array.isArray(receivedData) ? receivedData[0] : receivedData;
+        
         console.log("Dados processados do usuário:", data);
 
         // Atualiza o estado principal do usuário
